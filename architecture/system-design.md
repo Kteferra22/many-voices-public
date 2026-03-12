@@ -1,200 +1,283 @@
 # Many Voices — System Architecture
 
-Many Voices is a reflective journaling experience that blends structured prompts, scripture, and AI-generated recap journeys.
+## Overview
 
-The system is designed to guide users through a moment of reflection, collect meaningful input, and generate a narrative recap that helps users process thoughts through a faith-centered lens.
+Many Voices is a guided reflection platform that combines structured journaling prompts with AI-generated recap experiences.
+
+The system collects user reflections, processes them through a serverless generation pipeline, and presents the output through a paced narrative experience.
 
 The architecture prioritizes:
 
-• Simple guided UX
-• Serverless AI processing
-• Mobile-first performance
-• Emotionally paced storytelling experiences
+* lightweight infrastructure
+* serverless execution
+* responsive mobile UX
+* scalable reflection generation
 
 ---
 
-# System Overview
+# High-Level Architecture
 
-The application consists of three primary layers:
+```
+Client Application (React)
+        │
+        │ Reflection Inputs
+        ▼
+Reflection Engine (Frontend State + Prompt Logic)
+        │
+        │ Structured Response Payload
+        ▼
+Supabase Edge Function
+        │
+        │ AI Processing
+        ▼
+Recap Generation Pipeline
+        │
+        │ Structured Slide Data
+        ▼
+Recap Experience Viewer
+```
 
-User Interface (React + Motion)
-↓
-Reflection Engine (Prompt Flow + State Logic)
-↓
-Serverless Generation (Supabase Edge Functions)
-
-This structure allows the system to remain lightweight while still generating meaningful AI responses.
+The client controls the reflection experience while the backend handles recap generation.
 
 ---
 
-# Frontend Architecture
+# Client Layer
 
-Frontend is built using:
+### Technologies
 
-• React
-• TypeScript
-• Framer Motion (experience transitions)
-• TailwindCSS (UI styling)
+* React
+* TypeScript
+* TailwindCSS
+* Framer Motion
 
-The frontend handles:
+### Responsibilities
 
-• reflection prompts
-• journaling input
-• scripture selection
-• recap experience viewer
+The client application manages the reflection experience including:
 
-Key design goal:
+* prompt sequencing
+* journaling input collection
+* scripture selection
+* recap playback interface
 
-**Slow the user's experience down intentionally.**
-
-Animations and pacing are designed to create a reflective atmosphere rather than a fast productivity flow.
+The client does **not perform AI generation**.
+Instead, it prepares structured input and sends it to the backend pipeline.
 
 ---
 
 # Reflection Engine
 
-The reflection engine guides the user through a structured thought process.
+The reflection engine coordinates the journaling flow.
 
-Flow:
+Core responsibilities:
 
-Select reflection mode
-↓
-Answer guided prompts
-↓
-Choose scripture preference
-↓
-Generate reflection recap
+* load prompt sets
+* manage reflection modes
+* collect user answers
+* prepare structured reflection payload
 
-Reflection modes include:
+### Reflection Modes
 
-• reflection
-• prayer
-• gratitude
-• emotional processing
+The engine supports multiple reflection modes:
 
-Each mode loads a unique prompt sequence that encourages deeper reflection.
+* reflection
+* prayer
+* gratitude
+* emotional processing
 
----
+Each mode loads a predefined sequence of prompts designed to guide deeper reflection.
 
-# Journey Generation Pipeline
+Example flow:
 
-After the user completes the reflection prompts:
+```
+Select Reflection Mode
+        ↓
+Prompt Sequence
+        ↓
+Scripture Preference
+        ↓
+Submit Reflection
+```
 
-1. Responses are sent to a Supabase Edge Function
-2. The serverless function generates a recap narrative
-3. Structured "slides" are returned
-4. The frontend renders the recap experience
-
-Example pipeline:
-
-User Reflection Answers
-↓
-Supabase Edge Function
-↓
-Recap Generation Logic
-↓
-Structured Slide Output
-↓
-Animated Recap Viewer
-
-This allows the experience to feel like a **guided reflection journey rather than a simple text response.**
+The output of this stage is a **structured reflection payload**.
 
 ---
 
-# Recap Experience System
+# Serverless Processing Layer
 
-The recap viewer presents generated reflections through an animated slide experience.
+### Infrastructure
 
-The viewer supports:
+The backend uses **Supabase Edge Functions**.
 
-• autoplay pacing
-• manual navigation
-• pause controls
-• scripture slides
-• reflection summary card
+Responsibilities:
 
-Slides advance automatically every few seconds to simulate a guided meditation-like rhythm.
+* receive reflection payload
+* generate recap narrative
+* return structured slide content
+
+Benefits of serverless architecture:
+
+* no server maintenance
+* automatic scaling
+* low operational complexity
+
+Example request structure:
+
+```
+{
+  mode: "reflection",
+  answers: [ ... ],
+  scripture_mode: "suggest"
+}
+```
+
+The edge function returns a structured object containing recap slides.
+
+---
+
+# Recap Generation Pipeline
+
+The recap pipeline converts reflection answers into a narrative experience.
+
+Pipeline stages:
+
+```
+User Reflection Input
+        ↓
+Reflection Processing
+        ↓
+Narrative Recap Generation
+        ↓
+Slide Structuring
+        ↓
+Client Playback
+```
+
+Slides can include:
+
+* scripture passages
+* reflection insights
+* narrative recap text
+* closing reflection summary
+
+This structure allows the client to render a guided storytelling experience.
+
+---
+
+# Recap Experience Viewer
+
+The recap viewer presents reflection output through animated slides.
+
+Responsibilities:
+
+* autoplay slide progression
+* user navigation controls
+* pause/resume functionality
+* reflection summary rendering
+
+Slides advance automatically at a controlled pace to create a reflective experience.
+
+Example playback cycle:
+
+```
+Intro Slide
+↓
+Reflection Slides
+↓
+Scripture Slide
+↓
+Insight Slides
+↓
+Reflection Summary Card
+```
 
 ---
 
 # State Management
 
-Application state is managed through:
+Application state is handled within the client using:
 
-• React component state
-• navigation state
-• session storage for guest recap sessions
+* React state
+* component state
+* session storage
 
-Guest recap data is temporarily stored so the reflection experience can continue without requiring an account.
-
----
-
-# Backend Infrastructure
-
-Backend services use:
-
-• Supabase Edge Functions
-• Supabase database and authentication
-
-Edge functions allow reflection generation to run server-side without maintaining a dedicated backend server.
-
-Benefits:
-
-• scalable
-• low operational overhead
-• fast iteration
+Guest users can generate a reflection journey without authentication.
+Temporary recap data is stored locally during the session.
 
 ---
 
-# Research & Development (Experimental Features)
+# Research & Experimental Systems
 
-During development several features were explored but are currently not active in production.
+During development several experimental systems were explored.
 
-These include:
+## Global Awareness Layer
 
-## Global Awareness
+An earlier prototype included a global awareness system that attempted to incorporate:
 
-Originally the system included:
+* geolocation context
+* global event feeds
+* world map visualization
 
-• globe visualization
-• geolocation-based context
-• world event awareness
+Architecture concept:
 
-However this approach significantly slowed the application and complicated the reflection flow.
+```
+Geolocation API
+        ↓
+Global Event Feed
+        ↓
+Reflection Context Layer
+```
 
-The concept remains part of **ongoing research** but was removed to preserve performance and focus on the journaling experience.
+However this significantly increased application complexity and performance cost.
 
-## External Event APIs
-
-Global event feeds were explored to incorporate real-world awareness into reflections.
-
-These were ultimately removed in favor of a simpler reflection model centered on personal journaling.
-
----
-
-# Design Philosophy
-
-Many Voices is intentionally designed to be:
-
-• slow
-• reflective
-• emotionally supportive
-
-The architecture favors simplicity and user focus over feature complexity.
-
-The goal is not to build a traditional productivity tool, but a **quiet digital space for reflection and spiritual processing.**
+The feature is currently disabled while the core reflection experience is refined.
 
 ---
 
-# Current Development Status
+# Deployment Model
 
-The system is currently in **active development**.
+The system follows a simple deployment model:
 
-Future exploration areas include:
+```
+Client (Vercel / Static Hosting)
+        │
+        ▼
+Supabase Platform
+        │
+        ├ Edge Functions
+        ├ Authentication
+        └ Database
+```
 
-• deeper scripture integration
-• personalized reflection journeys
-• improved recap storytelling
-• optional global awareness features
+This architecture keeps infrastructure minimal while supporting future expansion.
 
-The foundation architecture is intentionally lightweight so new reflective experiences can be layered on without increasing system complexity.
+---
+
+# Scalability Considerations
+
+The current design allows the platform to scale without major architectural changes.
+
+Key scalability characteristics:
+
+* stateless backend functions
+* serverless compute
+* minimal persistent infrastructure
+
+Future enhancements may include:
+
+* personalized reflection history
+* AI-assisted scripture recommendations
+* expanded narrative generation pipelines
+
+---
+
+# Architectural Philosophy
+
+The system is intentionally designed to remain simple.
+
+Rather than introducing complex infrastructure, the architecture focuses on:
+
+* clarity
+* emotional pacing
+* maintainable serverless services
+
+This allows the platform to evolve while keeping the user experience calm and focused.
