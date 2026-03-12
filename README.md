@@ -1,10 +1,10 @@
 # Many Voices
 
-Many Voices is an interactive reflection experience designed to guide users through emotional and spiritual reflection using journaling prompts, scripture, and global awareness.
+Many Voices is an interactive reflection experience designed to guide users through emotional and spiritual reflection using journaling prompts, scripture, and thoughtful responses.
 
 Rather than replacing reflection with automated AI answers, the system is designed to **slow the user down and guide meaningful personal reflection**.
 
-The project explores how technology can support thoughtful introspection while still providing helpful context through scripture and global awareness.
+The project explores how technology can support thoughtful introspection while integrating biblical wisdom and reflective prompts.
 
 ---
 
@@ -21,7 +21,7 @@ This often results in:
 
 • shallow journaling experiences
 • reduced personal introspection
-• over-reliance on AI responses
+• over-reliance on automated responses
 
 There is an opportunity to design a digital experience that **guides reflection rather than replaces it**.
 
@@ -31,13 +31,13 @@ There is an opportunity to design a digital experience that **guides reflection 
 
 Many Voices provides a structured reflection journey designed to encourage deeper thought.
 
-The experience guides the user through a five-step flow:
+The experience guides the user through a calm and focused process:
 
 1. Reflection prompt
 2. Scripture guidance
-3. Personal reflection
-4. Global awareness
-5. Final recap and encouragement
+3. Personal journaling response
+4. AI-assisted reflective feedback
+5. Final recap encouraging continued reflection
 
 Instead of generating answers for the user, the system helps the user **process their own thoughts and emotions**.
 
@@ -48,8 +48,8 @@ Instead of generating answers for the user, the system helps the user **process 
 • Guided reflection prompts
 • Scripture retrieval using Bible API
 • Personal journaling interaction
-• Animated storytelling transitions
-• Global awareness context
+• AI-assisted reflection responses
+• Calm experience pacing
 • Reflection recap experience
 
 ---
@@ -66,17 +66,16 @@ Instead of generating answers for the user, the system helps the user **process 
 
 Lovable was used to accelerate frontend development while maintaining a structured React + TypeScript architecture.
 
-Framer Motion powers the animated transitions between reflection stages to create a calm and guided experience.
+Framer Motion powers animated transitions between reflection stages to create a calm and guided experience.
 
 ---
 
 ### APIs
 
 • Bible API for scripture retrieval
-• Geolocation API
-• Global events API
+• OpenAI API for reflection assistance
 
-These APIs provide contextual information that expands the user’s reflection beyond their immediate experience.
+These APIs provide biblical context and reflective feedback while preserving the user's own voice in the reflection process.
 
 ---
 
@@ -86,10 +85,10 @@ These APIs provide contextual information that expands the user’s reflection b
 
 Supabase provides backend infrastructure including:
 
-• user session handling
 • reflection entry storage
 • database access
-• serverless backend functionality
+• backend services
+• serverless architecture
 
 ---
 
@@ -103,7 +102,7 @@ Supabase provides backend infrastructure including:
 
 ### Designing a reflective digital experience
 
-Most digital products optimize for **speed and efficiency**, but this experience intentionally slows the user down.
+Most digital tools optimize for **speed and productivity**, but this experience intentionally slows the user down.
 
 This required careful design of:
 
@@ -112,21 +111,39 @@ This required careful design of:
 • reflection prompts
 • emotional tone of the interface
 
-The goal was to create a **guided experience rather than a productivity tool**.
+The goal was to create a **guided reflection experience rather than a productivity tool**.
 
 ---
 
-### Balancing guidance with personal agency
+### Balancing AI assistance with personal reflection
 
-One of the biggest design challenges was ensuring that technology **did not replace personal reflection**.
+One of the biggest design challenges was ensuring that AI **did not replace the user’s reflection**.
 
-Instead of providing answers, the system provides:
+Instead of providing direct answers, AI is used to:
 
-• thoughtful prompts
-• scripture guidance
-• broader global perspective
+• offer thoughtful prompts
+• provide biblical context
+• encourage deeper thinking
 
-The user remains the central voice in the experience.
+The user remains the central voice in the reflection process.
+
+---
+
+# Research & Development
+
+Earlier versions of Many Voices explored a **global awareness component** designed to help users see their personal experiences within the broader context of the world.
+
+This included experimental features such as:
+
+• 3D globe visualization
+• geolocation-based awareness
+• global events integration
+
+While visually compelling, the globe rendering and event system introduced significant performance overhead and slowed the overall user experience.
+
+To maintain a smooth and focused reflection flow, these features were removed from the current version of the application.
+
+However, the architecture and experimentation remain part of the project’s research and development history and may be revisited in future iterations.
 
 ---
 
@@ -138,7 +155,7 @@ Scripture Guidance
 ↓
 Personal Reflection
 ↓
-Global Awareness
+AI Reflective Response
 ↓
 Reflection Recap
 
